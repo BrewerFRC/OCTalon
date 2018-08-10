@@ -11,17 +11,17 @@ public class Log {
 	//usb are u/
 	private static final String COMMA = ",";
 	private static final String NEW_LINE_SEPERATOR = "\n";
-	private static final String PATH = "/var/datadump/";
+	private static final String PATH = "/u/Log";
 	private String filename = "";
 	private String header = "";
 	private String input = "";
-	private SimpleDateFormat dateFormat = new SimpleDateFormat("-yyyy-MM-dd@kk:mm",Locale.US);
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("-yyyy-MM-dd-kk-mm",Locale.US);
 	File file;
 	FileWriter writer = null;
 	
 	public Log(String filename, String[] columns) {
-			this.filename = filename;
-			File file = new File(PATH, filename + dateFormat.format(new Date())+ ".csv"); 
+			this.filename = filename+ dateFormat.format(new Date())+ ".csv";
+			File file = new File(PATH, this.filename); 
 				try {
 					if (!file.exists() || !file.canWrite()) {
 						file.createNewFile();
@@ -36,7 +36,7 @@ public class Log {
 					}
 					
 				} catch(IOException e) {
-					Common.debug("Could not create: " + filename + " at " + PATH + filename);
+					Common.debug("Could not create: " + filename + " at " + PATH + this.filename);
 					e.printStackTrace();
 				}	
 	}

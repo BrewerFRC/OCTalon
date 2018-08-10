@@ -118,7 +118,7 @@ public class Robot extends SampleRobot {
 	 */
 	@Override
 	public void operatorControl() {
-		final OCTalon talon = new OCTalon(2, "talon", FeedbackDevice.QuadEncoder);
+		final OCTalon talon = new OCTalon(2, "talon", FeedbackDevice.CTRE_MagEncoder_Absolute);
 		final Encoder encoder = new Encoder(5, 6, false, EncodingType.k4X);
 		final Xbox j = new Xbox(0);
 		final Spark 
@@ -135,7 +135,6 @@ public class Robot extends SampleRobot {
 			//talon.configVoltageComp(voltage);
 			dt.arcadeDrive(-j.getY(GenericHID.Hand.kLeft)*.7, j.getX(GenericHID.Hand.kLeft)*.7);
 			Common.dashNum("Talon Encoder", talon.getPosition());
-			Common.dashStr("talon name", talon.getName());
 			Common.dashNum("Talon Velocity", talon.getVelocity());
 			Common.dashNum("Encoder", encoder.get());
 			Common.dashNum("Encoder Velocity", encoder.getRate());

@@ -25,6 +25,7 @@ public class OCTalon extends WPI_TalonSRX{
 		super(deviceNumber);
 		lastMode = ControlMode.PercentOutput;
 		talonName = name;
+		super.setName(name);
 		header = new String[] {
 				"Name",
 				"Time",
@@ -40,10 +41,11 @@ public class OCTalon extends WPI_TalonSRX{
 		super(deviceNumber);
 		lastMode = ControlMode.PercentOutput;
 		talonName = name;
+		super.setName(name);
 		this.sensor = sensor;
 		isError = false;
 		//Does PIDidx need to change?
-		errorCheck(super.configSelectedFeedbackSensor(sensor, 0, 10));
+		errorCheck(super.configSelectedFeedbackSensor(sensor, 0, 0));
 			header = new String[] {
 				"Name",
 				"Time",
@@ -82,9 +84,6 @@ public class OCTalon extends WPI_TalonSRX{
 		}
 	}
 	
-	public String GetName() {
-		return name;
-	}
 	
 	/**
 	 * 
@@ -188,10 +187,10 @@ public class OCTalon extends WPI_TalonSRX{
 		errorCheck(super.configVoltageMeasurementFilter(samples, 10));
 	}
 	//No remote feed back device?
-	
-	public void configFeedbackCoefficient(double coefficient) {
-		errorCheck(super.configSelectedFeedbackCoefficient(coefficient, 0, 10));
-	}
+	//Unkown error
+	/*public void configFeedbackCoefficient(double coefficient) {
+		errorCheck(super.config(coefficient, 0, 10));
+	}*/
 	
 	public void configSensorTerm(SensorTerm sensorTerm, FeedbackDevice device) {
 		errorCheck(super.configSensorTerm(sensorTerm, device, 10));
@@ -243,7 +242,7 @@ public class OCTalon extends WPI_TalonSRX{
 	public double getPosition() {
 		return super.getSelectedSensorPosition(0);
 	}
-	
+		
 	public int getVelocity() {
 		return super.getSelectedSensorVelocity(0);
 	}
