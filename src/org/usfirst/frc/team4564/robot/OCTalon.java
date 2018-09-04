@@ -46,15 +46,25 @@ public class OCTalon extends WPI_TalonSRX{
 		isError = false;
 		//Does PIDidx need to change?
 		errorCheck(super.configSelectedFeedbackSensor(sensor, 0, 0));
-			header = new String[] {
-				"Name",
-				"Time",
-				"Voltage",
-				"Current Mode",
-				"Counts",
-				"Velocity",
-			};
-			talonLog = new Log("Talon", header);
+		if (sensor == FeedbackDevice.CTRE_MagEncoder_Relative) {
+				/* get the absolute pulse width position */
+				int pulseWidth = getSensorCollection().getPulseWidthPosition();
+
+				/* mask out the bottom 12 bits to normalize to [0,4095],
+				 * or in other words, to stay within [0,360) degrees */
+				pulseWidth = pulseWidth & 0xFFF;
+				/* save it to quadrature */
+				getSensorCollection().setQuadraturePosition(pulseWidth, 0);
+		}
+		header = new String[] {
+			"Name",
+			"Time",
+			"Voltage",
+			"Current Mode",
+			"Counts",
+			"Velocity",
+		};
+		talonLog = new Log("Talon", header);
 	}
 	
 	private boolean isChanged(double value, ControlMode mode) {
@@ -245,6 +255,14 @@ public class OCTalon extends WPI_TalonSRX{
 		
 	public int getVelocity() {
 		return super.getSelectedSensorVelocity(0);
+	}
+	
+	public double getABSPosition() {
+		int pos = super.getSensorCollection().getPulseWidthPosition() & 0xFFF;
+		double deg = pos *360.0/4906.0;
+		
+		return deg;		
+		
 	}
 	
 	//start on set statusframe
