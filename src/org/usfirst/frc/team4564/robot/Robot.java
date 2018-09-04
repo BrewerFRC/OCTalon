@@ -141,6 +141,9 @@ public class Robot extends SampleRobot {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
 			Common.dashStr("Date", dateFormat.format(new Date()));
 			//Common.debug("Talon Velocity"+talon.getVelocity());
+			Common.dashStr("Talon name", talon.name);
+			Common.dashNum("Talon PWM position", talon.getSensorCollection().getPulseWidthPosition());
+			Common.dashNum("selsonpos", talon.getSelectedSensorPosition(0));
 			
 			talon.update();
 			Timer.delay(0.005);

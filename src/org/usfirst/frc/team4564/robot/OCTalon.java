@@ -13,7 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class OCTalon extends WPI_TalonSRX{
 	double lastValue;
 	ControlMode lastMode;
-	String name;
+	String name = "notSet";
 	boolean isError;
 	FeedbackDevice sensor;
 	final String[] header;
@@ -24,7 +24,7 @@ public class OCTalon extends WPI_TalonSRX{
 	public OCTalon(int deviceNumber, String talonName) {
 		super(deviceNumber);
 		lastMode = ControlMode.PercentOutput;
-		talonName = name;
+		name = talonName;
 		super.setName(name);
 		header = new String[] {
 				"Name",
@@ -40,7 +40,7 @@ public class OCTalon extends WPI_TalonSRX{
 	public OCTalon(int deviceNumber, String talonName, FeedbackDevice sensor) {
 		super(deviceNumber);
 		lastMode = ControlMode.PercentOutput;
-		talonName = name;
+		name = talonName;
 		super.setName(name);
 		this.sensor = sensor;
 		isError = false;
