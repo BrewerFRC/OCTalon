@@ -118,7 +118,7 @@ public class Robot extends SampleRobot {
 	 */
 	@Override
 	public void operatorControl() {
-		final OCTalon talon = new OCTalon(2, "talon", FeedbackDevice.CTRE_MagEncoder_Absolute);
+		final OCTalon talon = new OCTalon(2, "talon", FeedbackDevice.CTRE_MagEncoder_Relative);
 		final Encoder encoder = new Encoder(5, 6, false, EncodingType.k4X);
 		final Xbox j = new Xbox(0);
 		final Spark 
@@ -135,15 +135,15 @@ public class Robot extends SampleRobot {
 			//talon.configVoltageComp(voltage);
 			dt.arcadeDrive(-j.getY(GenericHID.Hand.kLeft)*.7, j.getX(GenericHID.Hand.kLeft)*.7);
 			Common.dashNum("Talon Encoder", talon.getPosition());
-			Common.dashNum("Talon Velocity", talon.getVelocity());
+			Common.dashNum("Talon Velocity Quadature", talon.getSensorCollection().getQuadratureVelocity());
 			Common.dashNum("Encoder", encoder.get());
 			Common.dashNum("Encoder Velocity", encoder.getRate());
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
 			Common.dashStr("Date", dateFormat.format(new Date()));
 			//Common.debug("Talon Velocity"+talon.getVelocity());
 			Common.dashStr("Talon name", talon.name);
-			Common.dashNum("Talon PWM position", talon.getSensorCollection().getPulseWidthPosition());
-			Common.dashNum("selsonpos", talon.getSelectedSensorPosition(0));
+			Common.dashNum("Talon ABS Position", talon.getABSPosition());
+			Common.dashNum("Talon Velocity pulse width", talon.getSensorCollection().getPulseWidthVelocity());
 			
 			talon.update();
 			Timer.delay(0.005);

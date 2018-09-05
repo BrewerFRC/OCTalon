@@ -54,7 +54,8 @@ public class OCTalon extends WPI_TalonSRX{
 				 * or in other words, to stay within [0,360) degrees */
 				pulseWidth = pulseWidth & 0xFFF;
 				/* save it to quadrature */
-				getSensorCollection().setQuadraturePosition(pulseWidth, 0);
+				getSensorCollection().setQuadraturePosition(0, 0);
+				
 		}
 		header = new String[] {
 			"Name",
@@ -261,9 +262,8 @@ public class OCTalon extends WPI_TalonSRX{
 		int pos = super.getSensorCollection().getPulseWidthPosition() & 0xFFF;
 		double deg = pos *360.0/4906.0;
 		
-		return deg;		
-		
+		return deg;			
 	}
-	
+		
 	//start on set statusframe
 }
