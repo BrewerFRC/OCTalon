@@ -33,7 +33,7 @@ public class Xbox extends XboxController {
 	 * 
 	 * @param input the value of the interface in use.
 	 * @param deadzone the absolute value of the deadzone.
-	 * @return double the input value with deadzone applied.
+	 * @return the input value with deadzone applied.
 	 */
 	public double deadzone(double input, double deadzone) {
 		if (Math.abs(input) < deadzone) {
@@ -47,7 +47,7 @@ public class Xbox extends XboxController {
 	 * The universal deadzone for the controller.
 	 * 
 	 * @param input the value of the interface in use.
-	 * @return double the input value with deadzone applied.
+	 * @return the input value with deadzone applied.
 	 */
 	public double deadzone(double input) {
 		return deadzone(input, 0.2);
@@ -56,7 +56,7 @@ public class Xbox extends XboxController {
 	/**
 	 * Gets the value of the right trigger with deadzone.
 	 * 
-	 * @return double the value of the right trigger from the deadzone to 1.0.
+	 * @return the value of the right trigger from the deadzone to 1.0.
 	 */
 	public double getRightTrigger() {
 		return deadzone(getTriggerAxis(GenericHID.Hand.kRight));
@@ -65,7 +65,7 @@ public class Xbox extends XboxController {
 	/**
 	 * Gets the value of the left trigger with deadzone.
 	 * 
-	 * @return double the value of the left trigger from the deadzone to 1.0.
+	 * @return the value of the left trigger from the deadzone to 1.0.
 	 */
 	public double getLeftTrigger() {
 		return deadzone(getTriggerAxis(GenericHID.Hand.kLeft));
@@ -75,7 +75,7 @@ public class Xbox extends XboxController {
 	 * Returns whether or not the specified button is pressed.
 	 * 
 	 * @param button the button to check.
-	 * @return boolean whether or not the button is pressed.
+	 * @return whether or not the button is pressed.
 	 */
 	public boolean getPressed(String button) {
 		if (functionMap.containsKey(button)) {
@@ -88,7 +88,7 @@ public class Xbox extends XboxController {
 	 * Returns the rising edge of a button press.
 	 * 
 	 * @param button the button to check rising edge for.
-	 * @return boolean whether or not a rising edge was detected.
+	 * @return whether or not a rising edge was detected.
 	 */
 	public boolean when(String button) {
 		//TODO: Debounce buttons
