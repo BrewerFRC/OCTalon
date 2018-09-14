@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 //was talonSRX
 /**
- * A wrapper to simplify talon SRX's for easy use.
+ * A wrapper to simplify Talon SRX's for easy use.
  * 
  * @author Brewer FIRST Robotics Team 4564
  * @author Brent Roberts
@@ -284,6 +284,11 @@ public class OCTalon extends WPI_TalonSRX{
 		return pos;
 	}
 	
+	/**
+	 * Gets the absolute position from an mag encoder.
+	 * 
+	 * @return Absolute position from 0 to 360.
+	 */
 	public double getABSPosition() {
 		int pos = super.getSensorCollection().getPulseWidthPosition() & 0xFFF;
 		double deg = pos *360.0/4906.0;
