@@ -20,7 +20,6 @@ public class Log {
 	private String Path = "/u/Log";
 	private String fileName = "";
 	private String header = "";
-	private String input = "";
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("-yyyy-MM-dd-kk-mm",Locale.US);
 	File file;
 	FileWriter writer = null;
@@ -92,9 +91,10 @@ public class Log {
 	 * @param data in a array to be printed in the same order of columns
 	 */
 	public void log(String[] data) {
+		String input = new String();
 		try {
 			for (int i = 0; i < data.length-1; i++) {
-				input = input + data[i] + COMMA;
+				input +=data[i] + COMMA;
 			}
 			input = input+data[data.length - 1]+NEW_LINE_SEPERATOR;
 			writer.append(input);

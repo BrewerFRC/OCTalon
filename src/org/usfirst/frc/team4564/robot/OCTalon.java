@@ -17,16 +17,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
  * @author Brent Roberts
  */
 public class OCTalon extends WPI_TalonSRX{
-	double lastValue;
-	ControlMode lastMode;
-	String name = "notSet";
-	boolean isError;
-	FeedbackDevice sensor;
-	final String[] header;
-	String[] data;
-	Log talonLog;
-	int count = 0;
-	double scaler = 1;
+	private double lastValue;
+	private ControlMode lastMode;
+	private String name = "notSet";
+	private boolean isError;
+	private FeedbackDevice sensor;
+	private int count = 0;
+	private double scaler = 1;
 	
 	/**
 	 * Instantiates a talon at the device number with the device name
@@ -40,15 +37,6 @@ public class OCTalon extends WPI_TalonSRX{
 		lastMode = ControlMode.PercentOutput;
 		name = talonName;
 		super.setName(name);
-		header = new String[] {
-				"Name",
-				"Time",
-				"Voltage",
-				"Current Mode",
-				"Counts",
-				"Velocity",
-			};
-		talonLog = new Log("Talon", header);
 	}
 	
 	public OCTalon(int deviceNumber, String talonName, FeedbackDevice sensor) {
@@ -71,15 +59,6 @@ public class OCTalon extends WPI_TalonSRX{
 				getSensorCollection().setQuadraturePosition(0, 0);
 				
 		}
-		header = new String[] {
-			"Name",
-			"Time",
-			"Voltage",
-			"Current Mode",
-			"Counts",
-			"Velocity",
-		};
-		talonLog = new Log("Talon", header);
 	}
 	
 	private boolean isChanged(double value, ControlMode mode) {
@@ -153,29 +132,6 @@ public class OCTalon extends WPI_TalonSRX{
 	
 	public void update() {
 		errorCheck(super.getLastError());
-		data = new String[6];
-		if (sensor == null) {
-			data[0] = name;
-			data[1] = Long.toString(Common.time());
-			data[2] = Double.toString(super.getMotorOutputVoltage());
-			data[3] = lastMode.toString();
-			data[4] = "No sensor";
-			data[5] = "No sensor";
-		} else {
-			data[0] = name;
-			data[1] = Long.toString(Common.time());
-			data[2] = Double.toString(super.getMotorOutputVoltage());
-			data[3] = lastMode.toString();
-			data[4] = Double.toString(getPosition());
-			data[5] = Double.toString(getVelocity());
-		}
-		if (count == 5) {
-			count = 0;
-			talonLog.log(data);
-		} 
-		else {
-			count++;
-		}
 	}
 	
 	public void closedLoopRamp(double seconds) {

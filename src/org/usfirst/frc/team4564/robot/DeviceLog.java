@@ -25,7 +25,6 @@ public class DeviceLog {
 	private String Path = "/u/Log";
 	private String fileName = "";
 	private String header = "";
-	private String input = "";
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("-yyyy-MM-dd-kk-mm",Locale.US);
 	private Map<String, Supplier<Double>> devices =  new HashMap<String, Supplier<Double>>();
 	private boolean firstRun = true;
@@ -79,6 +78,7 @@ public class DeviceLog {
 	
 	public void update() {
 		Object[] keys  = devices.keySet().toArray();
+		String input = new String();
 		if (firstRun = true) { 
 			try {
 				for (int i = 0; i < keys.length - 1; i++) {
@@ -93,13 +93,14 @@ public class DeviceLog {
 			}
 		}
 		try {
-			for (int i = 0; i < devices.size() - 1; i++) {
-				input = input + devices.get(keys[i - 1]) + COMMA;
+			//int i = 0; i < devices.size() - 1; i++
+			for (String length:devices.keySet()) {
+				input += devices.get(length) + COMMA;
 			}
-			input = input + devices.get(keys[devices.size()]) + NEW_LINE_SEPERATOR;
+			input = input.substring(0, input.length()-1)+NEW_LINE_SEPERATOR;
 			writer.append(input);
 		} catch(IOException e) {
-			Common.debug("Could not create new line in: " + fileName);
+			Common.debug("Could not create new line: "+ input + " in: " + fileName);
 			e.printStackTrace();
 		}
 	}

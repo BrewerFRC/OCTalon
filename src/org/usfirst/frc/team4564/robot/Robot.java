@@ -46,6 +46,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends SampleRobot {
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
+	private DeviceLog talonLog = new DeviceLog("talonLog");
 
 		private Joystick m_stick = new Joystick(0);
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -141,7 +142,7 @@ public class Robot extends SampleRobot {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
 			Common.dashStr("Date", dateFormat.format(new Date()));
 			//Common.debug("Talon Velocity"+talon.getVelocity());
-			Common.dashStr("Talon name", talon.name);
+			Common.dashStr("Talon name", talon.getName());
 			Common.dashNum("Talon ABS Position", talon.getABSPosition());
 			Common.dashNum("Talon Velocity pulse width", talon.getSensorCollection().getPulseWidthVelocity());
 			
