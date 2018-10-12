@@ -16,6 +16,8 @@ public class OCTalonPID {
 	final String[] header;
 	String[] data;
 	
+	
+	//Talk about types of pid?
 	public OCTalonPID(OCTalon talon, String name, double p, double i, double d, double f, boolean visible) {
 		this.talon = talon;
 		this.visible = visible;

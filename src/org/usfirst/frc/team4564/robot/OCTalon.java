@@ -26,11 +26,11 @@ public class OCTalon extends WPI_TalonSRX{
 	private double scaler = 1;
 	
 	/**
-	 * Instantiates a talon at the device number with the device name
-	 * also creates a log
+	 * Instantiates a talon at the device number with the device name.
 	 * 
-	 * @param deviceNumber
-	 * @param talonName
+	 * 
+	 * @param deviceNumber, CAN ID of talon.
+	 * @param talonName, Desired name of talon.
 	 */
 	public OCTalon(int deviceNumber, String talonName) {
 		super(deviceNumber);
@@ -39,6 +39,13 @@ public class OCTalon extends WPI_TalonSRX{
 		super.setName(name);
 	}
 	
+	/**
+	 * Instantiates a talon with an sensor at the device number with the device name.
+	 * 
+	 * @param deviceNumber CAN ID of talon.
+	 * @param talonName Desired name of talon.
+	 * @param sensor Sensor to be created.
+	 */
 	public OCTalon(int deviceNumber, String talonName, FeedbackDevice sensor) {
 		super(deviceNumber);
 		lastMode = ControlMode.PercentOutput;
@@ -61,6 +68,13 @@ public class OCTalon extends WPI_TalonSRX{
 		}
 	}
 	
+	/**
+	 * Checks if values would change a motor's target or mode.
+	 * 
+	 * @param value to be checked against current.
+	 * @param mode to be checked against current.
+	 * @return whether the values sent would change either target or mode.
+	 */
 	private boolean isChanged(double value, ControlMode mode) {
 		if (value != lastValue || mode != lastMode) {
 			//Common.debug(name+"changed = true");
@@ -72,7 +86,12 @@ public class OCTalon extends WPI_TalonSRX{
 		}
 	}
 	
-	private void errorCheck(ErrorCode error) {
+	/**
+	 * Checks if error code is abnormal and if it is debugs the code with the talon name and sets the talon to error mode.
+	 * 
+	 * @param error to be check if not okay
+	 */
+	public void errorCheck(ErrorCode error) {
 		if (error != ErrorCode.OK) {
 			isError = true;
 			Common.debug(name+ ": " + error.toString());
@@ -81,17 +100,22 @@ public class OCTalon extends WPI_TalonSRX{
 		}
 	}
 	
+	/**
+	 * Controls any error by setting the talon to neutral output along with debugging the talon's error state. 
+	 * 
+	 */
 	public void handle() {
 		if (isError) {
-			neutralOutput();
+			this.neutralOutput();
 			Common.debug(name+" in error state");
 		}
 	}
 	
 	
 	/**
+	 * Sets the motor to run at an percent
 	 * 
-	 * @param input - Percent from 1.0 to -1.0 to run the motor at 
+	 * @param input Percent from 1.0 to -1.0 to run the motor at.
 	 */
 	public void setPercent(double input) {
 		if (isChanged(input, ControlMode.PercentOutput)) {
@@ -102,6 +126,11 @@ public class OCTalon extends WPI_TalonSRX{
 		}
 	}
 	
+	/**
+	 * Sets an target for 
+	 * 
+	 * @param input
+	 */
 	public void setCurrent(double input) {
 		if (isChanged(input, ControlMode.Current)) {
 			lastValue = input;

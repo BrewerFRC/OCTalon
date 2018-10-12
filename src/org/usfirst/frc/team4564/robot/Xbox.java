@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
  * @author Brewer FIRST Robotics Team 4564
  * @author Evan McCoy
  * @author Jacob Cote
+ * @author Brent Roberts
  */
 public class Xbox extends XboxController {
 	private Map<String, Supplier<Boolean>> functionMap = new HashMap<String, Supplier<Boolean>>();
@@ -108,6 +109,12 @@ public class Xbox extends XboxController {
 		return false;
 	}
 	
+	/**
+	 * Returns the falling edge of an button.
+	 * 
+	 * @param button the button to check the falling edge for.
+	 * @return whether or not an falling edge was detected.
+	 */
 	public boolean falling(String button) {
 		if (!fallingMap.containsKey(button)) {
 			Common.debug("falling map does not contain"+button);
@@ -137,7 +144,8 @@ public class Xbox extends XboxController {
 	/**
 	 * Maps superclass button functions to strings and sets up built-in deadzones.
 	 */
-	public void setupFunctions() {
+	private void setupFunctions() {
+		//Changed to private because I didn't see an reason to be public -Brent 10/11/18
 		functionMap.put("a", this::getAButton);
 		whenMap.put("a", false);
 		fallingMap.put("a", false);

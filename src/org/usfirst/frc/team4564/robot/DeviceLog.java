@@ -34,6 +34,7 @@ public class DeviceLog {
 	/**
 	 * Instantiates a device logger with the file name specified and the columns listed.
 	 * file is named "/u/Log" + filename + current date in the format of -year-month number-day-hours in 24 hour format-minutes + ".csv".
+	 * @param fileName, name of file to be created.
 	 */
 	public DeviceLog(String fileName) {
 		this.fileName = fileName+ dateFormat.format(new Date())+ ".csv";
@@ -72,10 +73,20 @@ public class DeviceLog {
 				}	
 	}
 	
+	/**
+	 * Adds an device to supply data to the log.
+	 * 
+	 * @param name of the device to be created. 
+	 * @param data, the function to be logged.
+	 */
 	public void addDevice(String name, Supplier<Double> data) {
 		devices.put(name, data);
 	}
 	
+	/**
+	 * Updates the log, should be run at most once a cycle.
+	 * 
+	 */
 	public void update() {
 		Object[] keys  = devices.keySet().toArray();
 		String input = new String();
