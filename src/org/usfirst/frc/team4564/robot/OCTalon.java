@@ -127,9 +127,9 @@ public class OCTalon extends WPI_TalonSRX{
 	}
 	
 	/**
-	 * Sets an target for 
+	 * Sets an target for an closed loop current PID.
 	 * 
-	 * @param input
+	 * @param input target to be set in Milliamperes.
 	 */
 	public void setCurrent(double input) {
 		if (isChanged(input, ControlMode.Current)) {
