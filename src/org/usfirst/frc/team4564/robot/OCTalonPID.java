@@ -5,16 +5,13 @@ import com.ctre.phoenix.ParamEnum;
 public class OCTalonPID {
 	//PID is linked to motor inversion as far as I can tell
 	
-	OCTalon talon;
-	boolean visible;
-	String name;
-	double p;
-	double i;
-	double d;
-	double f;
-	Log PIDlog;
-	final String[] header;
-	String[] data;
+	private OCTalon talon;
+	private boolean visible;
+	private String name;
+	private double p;
+	private double i;
+	private double d;
+	private double f;
 	
 	
 	//Talk about types of pid?
@@ -36,18 +33,6 @@ public class OCTalonPID {
 			Common.dashNum(name + " D", d);
 			Common.dashNum(name + " F", f);
 		}
-		header = new String[] {
-			"Target",
-			"Position",
-			"Velocity",
-			"Error",
-			"Output",
-			"P",
-			"I",
-			"D",
-			"F",
-		};
-		PIDlog = new Log(name+" PIDF", header);
 	}
 	
 	public OCTalonPID(OCTalon talon, String name, double p, double i, double d, boolean visible) {
@@ -65,17 +50,6 @@ public class OCTalonPID {
 			Common.dashNum(name + " I", i);
 			Common.dashNum(name + " D", d);
 		}
-		header = new String[] {
-				"Target",
-				"Position",
-				"Velocity",
-				"Error",
-				"Output",
-				"P",
-				"I",
-				"D",
-			};
-			PIDlog = new Log(name+" PID", header);
 	}
 	
 	public void update() {
@@ -85,53 +59,28 @@ public class OCTalonPID {
 			
 			//update params
 			double newp = Common.getNum(name+ " P");
-			if (this.p == newp) {
+			if (this.p != newp) {
 				p = newp;
 				talon.configP(p);
 			}
 			double newi = Common.getNum(name+ " I");
-			if (this.i == newi) {
+			if (this.i != newi) {
 				i = newi;
 				talon.configI(i);
 			}
 			double newd = Common.getNum(name+ " D");
-			if (this.d == newd) {
+			if (this.d != newd) {
 				d = newd;
 				talon.configD(d);
 			}
 			if (Double.valueOf(f) != null) {
 				double newf = Common.getNum(name+ " F");
 				//check for a existing f
-				if (this.f == newf) {
+				if (this.f != newf) {
 					f = newf;
 					talon.configF(f);
 				}
 			}
-		}
-		if (Double.valueOf(f) == null) {
-			data = new String[] {
-				Double.toString(talon.getTarget()),
-				Double.toString(talon.getPosition()),
-				Double.toString(talon.getVelocity()),
-				Double.toString(talon.getError()),
-				Double.toString(talon.getMotorOutputPercent()),
-				Double.toString(p),
-				Double.toString(i),
-				Double.toString(d)
-			};
-		}
-		else {
-			data = new String[] {
-					Double.toString(talon.getTarget()),
-					Double.toString(talon.getPosition()),
-					Double.toString(talon.getVelocity()),
-					Double.toString(talon.getError()),
-					Double.toString(talon.getMotorOutputPercent()),
-					Double.toString(p),
-					Double.toString(i),
-					Double.toString(d),
-					Double.toString(f)
-				};
 		}
 	}
 }

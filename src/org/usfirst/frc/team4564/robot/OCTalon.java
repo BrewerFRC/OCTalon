@@ -111,6 +111,22 @@ public class OCTalon extends WPI_TalonSRX{
 		}
 	}
 	
+	/**
+	 * Returns whether the talon is error.
+	 * 
+	 * @return isError Whether or not the talon has errored.
+	 */
+	public boolean error() {
+		return isError;
+	}
+	
+	/**
+	 * Don't use this, use the setType you want to use instead
+	 */
+	@Override
+	public void set(ControlMode mode, double input) {
+		Common.debug("The wrong Talon set method was used with on:"+name+ " ControlMode:"+mode+ " input:"+ input);
+	}
 	
 	/**
 	 * Sets the motor to run at an percent
@@ -139,6 +155,11 @@ public class OCTalon extends WPI_TalonSRX{
 		}
 	}
 	
+	/**
+	 * Sets an target for an closed loop velocity PID.
+	 * 
+	 * @param input target to be set in native units or scaled.
+	 */
 	public void setVelocity(double input) {
 		if (isChanged(input, ControlMode.Velocity)) {
 			lastValue = input;
@@ -147,6 +168,11 @@ public class OCTalon extends WPI_TalonSRX{
 		}
 	}
 	
+	/**
+	 * Sets an target for an closed loop position PID.
+	 * 
+	 * @param input targetto be set in native unites or scaled. 
+	 */
 	public void setPosition(double input) {
 		if (isChanged(input, ControlMode.Position)) {
 			lastValue = input;
@@ -196,11 +222,6 @@ public class OCTalon extends WPI_TalonSRX{
 	public void configVoltageMeasurementFilter(int samples) {
 		errorCheck(super.configVoltageMeasurementFilter(samples, 10));
 	}
-	//No remote feed back device?
-	//Unkown error
-	/*public void configFeedbackCoefficient(double coefficient) {
-		errorCheck(super.config(coefficient, 0, 10));
-	}*/
 	
 	public void configSensorTerm(SensorTerm sensorTerm, FeedbackDevice device) {
 		errorCheck(super.configSensorTerm(sensorTerm, device, 10));
@@ -281,15 +302,24 @@ public class OCTalon extends WPI_TalonSRX{
 		return deg;			
 	}
 	
+	//Test whether scaler is neccasary clientside
 	/**
 	 * Sets the scaler of all non absolute sensor readings in the class.
 	 * Defaults to 1.
+	 * The scaler must be within [0.000015258789, 1.000], and has a resolution of 0.0000152587890625.
 	 * 
-	 * @param Scale of all non absolute sensor readings.
+	 * @param Scaler Scaler of all non absolute sensor readings.
 	 */
 	public void setSensorScaler(double scaler) {
 		this.scaler = scaler;
+		super.configSelectedFeedbackCoefficient(scaler, 0, 0);
 	}
+	
+	//No remote feed back device?????????
+	//Unkown error
+	/*public void configFeedbackCoefficient(double coefficient) {
+		errorCheck(super.config(coefficient, 0, 10));
+	}*/
 
 	/**
 	 * Returns the current sensor scaler.
@@ -300,5 +330,6 @@ public class OCTalon extends WPI_TalonSRX{
 	public double getSensorScaler() {
 		return scaler;
 	}
+	
 	
 }
