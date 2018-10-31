@@ -15,11 +15,22 @@ public class OCTalonPID {
 	
 	
 	//Talk about types of pid?
+	/**
+	 * 
+	 * @param talon
+	 * @param name
+	 * @param p
+	 * @param i
+	 * @param d
+	 * @param f
+	 * @param visible
+	 */
 	public OCTalonPID(OCTalon talon, String name, double p, double i, double d, double f, boolean visible) {
 		this.talon = talon;
 		this.visible = visible;
 		this.name = name;
-		talon.configP(p);
+		//Is this okay?
+		setP(p);
 		this.p = p;
 		talon.configI(i);
 		this.i = i;
@@ -52,6 +63,63 @@ public class OCTalonPID {
 		}
 	}
 	
+	//Getter Functions
+	
+	
+	
+	//Setter Functions
+	/**
+	 * Sets the proportional term only if stored value is not equal to new value.
+	 * 
+	 * @param newP The new proportional term to be set.
+	 */
+	public void setP(double newP) {
+		if (this.p != newP) {
+			p = newP;
+			talon.configP(p);
+		}
+	}
+	
+	/**
+	 * Sets the integral term only if stored value is not equal to new value.
+	 * 
+	 * @param newI The new integral term to be set.
+	 */
+	public void setI(double newI) {
+		if (this.i != newI) {
+			i = newI;
+			talon.configI(i);
+		}
+	}
+	
+	/**
+	 * Sets the derivative term only if stored value is not equal to new value.
+	 * 
+	 * @param newD The new derivative term to be set.
+	 */
+	public void setD(double newD) {
+		if (this.d != newD) {
+			d = newD;
+			talon.configD(d);
+		}
+	}
+	
+	/**
+	 * Sets the feed forward term only if stored value is not equal to new value.
+	 * 
+	 * @param newF The new feed forward term to be set.
+	 */
+	public void setF(double newF) {
+		if (this.f != newF) {
+			f = newF;
+			talon.configF(f);
+		}
+	}
+	
+	
+	
+	//Utility Functions
+	
 	public void update() {
 		if (visible) {
 			Common.dashNum(name + " target", talon.getTarget());
@@ -59,27 +127,14 @@ public class OCTalonPID {
 			
 			//update params
 			double newp = Common.getNum(name+ " P");
-			if (this.p != newp) {
-				p = newp;
-				talon.configP(p);
-			}
+			setP(newp);
 			double newi = Common.getNum(name+ " I");
-			if (this.i != newi) {
-				i = newi;
-				talon.configI(i);
-			}
+			setI(newi);
 			double newd = Common.getNum(name+ " D");
-			if (this.d != newd) {
-				d = newd;
-				talon.configD(d);
-			}
+			setD(newd);
 			if (Double.valueOf(f) != null) {
 				double newf = Common.getNum(name+ " F");
-				//check for a existing f
-				if (this.f != newf) {
-					f = newf;
-					talon.configF(f);
-				}
+				setF(newf);
 			}
 		}
 	}
