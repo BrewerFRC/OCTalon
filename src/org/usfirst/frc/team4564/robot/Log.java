@@ -29,6 +29,7 @@ public class Log {
 	/**
 	 * Instantiates a logger with the file name specified and the columns listed.
 	 * file is named "/u/Log" + filename + current date in the format of -year-month number-day-hours in 24 hour format-minutes + ".csv".
+	 * Default frequency of 10.
 	 * 
 	 * @param fileName of the file to be created.
 	 * @param columns array of columns to be printed
@@ -58,6 +59,7 @@ public class Log {
 	/**
 	 * Instantiates a logger with the file name specified and the columns listed.
 	 * file name is filename + current date in the format of -year-month number-day-hours in 24 hour format-minutes.csv.
+	 * Default frequency of 10.
 	 * 
 	 * @param filePath of the file to be created.
 	 * @param filename of the file to be created.
