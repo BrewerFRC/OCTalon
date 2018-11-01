@@ -20,16 +20,16 @@ public class Log {
 	private String Path = "/u/Log";
 	private String fileName = "";
 	private String header = "";
-	private int frequency = 10;
-	private int count = getFrequency();
+	private int period = 10;
+	private int count = getPeriod();
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("-yyyy-MM-dd-kk-mm",Locale.US);
-	File file;
-	FileWriter writer = null;
+	private File file;
+	private FileWriter writer = null;
 	
 	/**
 	 * Instantiates a logger with the file name specified and the columns listed.
 	 * file is named "/u/Log" + filename + current date in the format of -year-month number-day-hours in 24 hour format-minutes + ".csv".
-	 * Default frequency of 10.
+	 * Default period of 10.
 	 * 
 	 * @param fileName of the file to be created.
 	 * @param columns array of columns to be printed
@@ -59,7 +59,7 @@ public class Log {
 	/**
 	 * Instantiates a logger with the file name specified and the columns listed.
 	 * file name is filename + current date in the format of -year-month number-day-hours in 24 hour format-minutes.csv.
-	 * Default frequency of 10.
+	 * Default period of 10.
 	 * 
 	 * @param filePath of the file to be created.
 	 * @param filename of the file to be created.
@@ -96,7 +96,7 @@ public class Log {
 	 * @param data in a array to be printed in the same order of columns
 	 */
 	public void update(String[] data) {
-		if (getFrequency() == count) {
+		if (count >= getPeriod()) {
 			String input = new String();
 			try {
 				for (int i = 0; i < data.length-1; i++) {
@@ -117,24 +117,24 @@ public class Log {
 	
 	
 	/**
-	 * Sets the frequency of longing.
-	 * Frequency should be which cycle the log will print on.
+	 * Sets the period of longing.
+	 * The amount of cycles between prints.
 	 * Resets the cycle to print in this cycle 
 	 * Count resets to 0 after an complete cycle.
 	 * 
-	 * @param frequency The cycle the log will print on
+	 * @param period The cycle the log will print on
 	 */
-	public void setFrequency(int frequency) {
-		this.frequency = frequency;
-		this.count = getFrequency();
+	public void setPeriod(int period) {
+		this.period = period;
+		this.count = getPeriod();
 	}
 	
 	/**
-	 * Returns the frequency of the Log.
+	 * Returns the period of the Log.
 	 * 
-	 * @return the frequency of the Log.
+	 * @return the period of the Log.
 	 */
-	public int getFrequency() {
-		return this.frequency;
+	public int getPeriod() {
+		return this.period;
 	}
 }

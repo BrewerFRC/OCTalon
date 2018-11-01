@@ -4,13 +4,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -25,8 +22,8 @@ public class DeviceLog {
 	private String Path = "/u/Log";
 	private String fileName = "";
 	private String header = "";
-	private int frequency = 10;
-	private int count = getFrequency();
+	private int period = 10;
+	private int count = getPeriod();
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("-yyyy-MM-dd-kk-mm",Locale.US);
 	private Map<String, Supplier<Double>> devices =  new HashMap<String, Supplier<Double>>();
 	private boolean firstRun = true;
@@ -36,7 +33,7 @@ public class DeviceLog {
 	/**
 	 * Instantiates a device logger with the file name specified and the columns listed.
 	 * file is named "/u/Log" + filename + current date in the format of -year-month number-day-hours in 24 hour format-minutes + ".csv".
-	 * Default frequency of 10.
+	 * Default period of 10.
 	 * 
 	 * @param fileName, name of file to be created.
 	 */
@@ -57,7 +54,7 @@ public class DeviceLog {
 	/**
 	 * Instantiates a device logger with the file name specified and the columns listed.
 	 * file name is filename + current date in the format of -year-month number-day-hours in 24 hour format-minutes.csv.
-	 * Default frequency of 10.
+	 * Default period of 10.
 	 * 
 	 * @param filePath of the file to be created.
 	 * @param filename of the file to be created.
@@ -95,7 +92,7 @@ public class DeviceLog {
 	public void update() {
 		Object[] keys  = devices.keySet().toArray();
 		String input = new String();
-		if (getFrequency() == count) {
+		if (getPeriod() == count) {
 			if (firstRun = true) { 
 				try {
 					for (int i = 0; i < keys.length - 1; i++) {
@@ -127,24 +124,24 @@ public class DeviceLog {
 	}
 	
 	/**
-	 * Sets the frequency of longing.
-	 * Frequency should be which cycle the log will print on.
+	 * Sets the period of longing.
+	 * The amount of cycles between prints.
 	 * Resets the cycle to print in this cycle 
 	 * Count resets to 0 after an complete cycle.
 	 * 
-	 * @param frequency The cycle the log will print on
+	 * @param period The cycle the log will print on
 	 */
-	public void setFrequency(int frequency) {
-		this.frequency = frequency;
-		this.count = getFrequency();
+	public void setPeriod(int period) {
+		this.period = period;
+		this.count = getPeriod();
 	}
 	
 	/**
-	 * Returns the frequency of the Log.
+	 * Returns the period of the Log.
 	 * 
-	 * @return the frequency of the Log.
+	 * @return The period of the Log.
 	 */
-	public int getFrequency() {
-		return this.frequency;
+	public int getPeriod() {
+		return this.period;
 	}
 }
