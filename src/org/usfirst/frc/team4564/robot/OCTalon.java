@@ -78,10 +78,8 @@ public class OCTalon extends WPI_TalonSRX {
 	/**
 	 * Checks if values would change a motor's target or mode.
 	 * 
-	 * @param value
-	 *            to be checked against current.
-	 * @param mode
-	 *            to be checked against current.
+	 * @param value to be checked against current.
+	 * @param mode to be checked against current.
 	 * @return whether the values sent would change either target or mode.
 	 */
 	private boolean isChanged(double value, ControlMode mode) {
@@ -98,8 +96,7 @@ public class OCTalon extends WPI_TalonSRX {
 	 * Checks if error code is abnormal and if it is debugs the code with the
 	 * talon name and sets the talon to error mode.
 	 * 
-	 * @param error
-	 *            to be check if not okay
+	 * @param error to be checked if not okay.
 	 */
 	public void errorCheck(ErrorCode error) {
 		if (error != ErrorCode.OK) {
@@ -143,8 +140,7 @@ public class OCTalon extends WPI_TalonSRX {
 	/**
 	 * Sets the motor to run at an percent
 	 * 
-	 * @param input
-	 *            Percent from 1.0 to -1.0 to run the motor at.
+	 * @param input hPercent from 1.0 to -1.0 to run the motor at.
 	 */
 	public void setPercent(double input) {
 		if (isChanged(input, ControlMode.PercentOutput)) {
