@@ -1,7 +1,10 @@
 package org.usfirst.frc.team4564.robot;
 
-import com.ctre.phoenix.ParamEnum;
-
+/**
+ * 
+ * @author Brewer FIRST Robotics Team 4564
+ * @author Brent Roberts
+ */
 public class OCTalonPID {
 	//PID is linked to motor inversion as far as I can tell
 	
@@ -46,6 +49,15 @@ public class OCTalonPID {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param talon
+	 * @param name
+	 * @param p
+	 * @param i
+	 * @param d
+	 * @param visible
+	 */
 	public OCTalonPID(OCTalon talon, String name, double p, double i, double d, boolean visible) {
 		this.talon = talon;
 		this.visible = visible;
@@ -119,7 +131,9 @@ public class OCTalonPID {
 	
 	
 	//Utility Functions
-	
+	/**
+	 * 
+	 */
 	public void update() {
 		if (visible) {
 			Common.dashNum(name + " target", talon.getTarget());
