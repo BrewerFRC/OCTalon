@@ -394,7 +394,7 @@ public class OCTalon extends WPI_TalonSRX {
 	 * Uses an ordinal of 0 because that is what the example uses and I don't know what it is.
 	 * 
 	 * @param enu ParamEnum of the wanted param.
-	 * @return
+	 * @return Parameter
 	 */
 	public double getParam(ParamEnum enu) {
 		// ordinal appears to be 0

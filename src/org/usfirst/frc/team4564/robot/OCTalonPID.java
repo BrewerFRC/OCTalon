@@ -1,6 +1,10 @@
 package org.usfirst.frc.team4564.robot;
 
+import com.ctre.phoenix.ParamEnum;
+
 /**
+ * 
+ * 
  * 
  * @author Brewer FIRST Robotics Team 4564
  * @author Brent Roberts
@@ -14,7 +18,7 @@ public class OCTalonPID {
 	private double p;
 	private double i;
 	private double d;
-	private double f;
+	private double f = 0.0;
 	
 	
 	//Talk about types of pid?
@@ -32,24 +36,25 @@ public class OCTalonPID {
 		this.talon = talon;
 		this.visible = visible;
 		this.name = name;
-		//Is this okay?
-		setP(p);
-		this.p = p;
-		talon.configI(i);
-		this.i = i;
-		talon.configD(d);
-		this.d = d;
-		talon.configF(f);
-		this.f = f;
+		this.p = this.talon.getParam(ParamEnum.eProfileParamSlot_P);
+		this.setP(p);
+		this.i = this.talon.getParam(ParamEnum.eProfileParamSlot_I);
+		this.setI(i);
+		this.d = this.talon.getParam(ParamEnum.eProfileParamSlot_D);
+		this.setD(d);
+		this.f = this.talon.getParam(ParamEnum.eProfileParamSlot_F);
+		this.setF(f);
 		if (visible) {
-			Common.dashNum(name + " P", p);
-			Common.dashNum(name + " I", i);
-			Common.dashNum(name + " D", d);
-			Common.dashNum(name + " F", f);
+			Common.dashNum(getName() + " P", getP());
+			Common.dashNum(getName() + " I", getI());
+			Common.dashNum(getName() + " D", getD());
+			Common.dashNum(getName() + " F", getF());
 		}
 	}
 	
 	/**
+	 * 
+	 * Sets the F to 0.0.
 	 * 
 	 * @param talon
 	 * @param name
@@ -62,22 +67,74 @@ public class OCTalonPID {
 		this.talon = talon;
 		this.visible = visible;
 		this.name = name;
-		talon.configP(p);
-		this.p = p;
-		talon.configI(i);
-		this.i = i;
-		talon.configD(d);
-		this.d = d;
+		this.p = this.talon.getParam(ParamEnum.eProfileParamSlot_P);
+		this.setP(p);
+		this.i = this.talon.getParam(ParamEnum.eProfileParamSlot_I);
+		this.setI(i);
+		this.d = this.talon.getParam(ParamEnum.eProfileParamSlot_D);
+		this.setD(d);
+		this.setF(this.f);
 		if (visible) {
-			Common.dashNum(name + " P", p);
-			Common.dashNum(name + " I", i);
-			Common.dashNum(name + " D", d);
+			Common.dashNum(getName() + " P", getP());
+			Common.dashNum(getName() + " I", getI());
+			Common.dashNum(getName() + " D", getD());
 		}
 	}
 	
 	//Getter Functions
+	/**
+	 * The error of the PID.
+	 * 
+	 * @return The PID error.
+	 */
+	public double getError() {
+		return talon.getError();
+	}
 	
+	/**
+	 * The name of the PID.
+	 * 
+	 * @return name of PID.
+	 */
+	public String getName() {
+		return this.name;
+	}
 	
+	/**
+	 * Gets the P value
+	 * 
+	 * @return The current P value.
+	 */
+	public double getP() {
+		return this.p;
+	}
+	
+	/**
+	 * Gets the I value
+	 * 
+	 * @return The current I value.
+	 */
+	public double getI() {
+		return this.i;
+	}
+	
+	/**
+	 * Gets the D value
+	 * 
+	 * @return The current D value.
+	 */
+	public double getD() {
+		return this.d;
+	}
+	
+	/**
+	 * Gets the F value
+	 * 
+	 * @return The current F value. 0.0 is the default.
+	 */
+	public double getF() {
+		return this.f;
+	}
 	
 	//Setter Functions
 	/**
@@ -86,8 +143,8 @@ public class OCTalonPID {
 	 * @param newP The new proportional term to be set.
 	 */
 	public void setP(double newP) {
-		if (this.p != newP) {
-			p = newP;
+		if (this.getP() != newP) {
+			this.p = newP;
 			talon.configP(p);
 		}
 	}
@@ -98,8 +155,8 @@ public class OCTalonPID {
 	 * @param newI The new integral term to be set.
 	 */
 	public void setI(double newI) {
-		if (this.i != newI) {
-			i = newI;
+		if (this.getI() != newI) {
+			this.i = newI;
 			talon.configI(i);
 		}
 	}
@@ -110,8 +167,8 @@ public class OCTalonPID {
 	 * @param newD The new derivative term to be set.
 	 */
 	public void setD(double newD) {
-		if (this.d != newD) {
-			d = newD;
+		if (this.getD() != newD) {
+			this.d = newD;
 			talon.configD(d);
 		}
 	}
@@ -122,8 +179,8 @@ public class OCTalonPID {
 	 * @param newF The new feed forward term to be set.
 	 */
 	public void setF(double newF) {
-		if (this.f != newF) {
-			f = newF;
+		if (this.getF() != newF) {
+			this.f = newF;
 			talon.configF(f);
 		}
 	}
@@ -136,20 +193,29 @@ public class OCTalonPID {
 	 */
 	public void update() {
 		if (visible) {
-			Common.dashNum(name + " target", talon.getTarget());
-			Common.dashNum(name + " error", talon.getError());
+			Common.dashNum(getName() + " target", talon.getTarget());
+			Common.dashNum(getName() + " error", talon.getError());
 			
 			//update params
-			double newp = Common.getNum(name+ " P");
+			double newp = Common.getNum(getName()+ " P");
 			setP(newp);
-			double newi = Common.getNum(name+ " I");
+			double newi = Common.getNum(getName()+ " I");
 			setI(newi);
-			double newd = Common.getNum(name+ " D");
+			double newd = Common.getNum(getName()+ " D");
 			setD(newd);
-			if (Double.valueOf(f) != null) {
-				double newf = Common.getNum(name+ " F");
+			if (Double.valueOf(getF()) != null) {
+				double newf = Common.getNum(getName()+ " F");
 				setF(newf);
 			}
+		}
+	}
+	
+	public void postCoeffcients() {
+		Common.dashNum(getName() + " P", getP());
+		Common.dashNum(getName() + " I", getI());
+		Common.dashNum(getName() + " D", getD());
+		if (Double.valueOf(getF()) != 0.0) {
+			Common.dashNum(getName() + " F", getF());
 		}
 	}
 }
