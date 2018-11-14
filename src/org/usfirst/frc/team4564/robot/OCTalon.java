@@ -30,10 +30,8 @@ public class OCTalon extends WPI_TalonSRX {
 	 * Instantiates a talon at the device number with the device name.
 	 * 
 	 * 
-	 * @param deviceNumber,
-	 *            CAN ID of talon.
-	 * @param talonName,
-	 *            Desired name of talon.
+	 * @param deviceNumber CAN ID of talon.
+	 * @param talonName Desired name of talon.
 	 */
 	public OCTalon(int deviceNumber, String talonName) {
 		super(deviceNumber);
@@ -48,18 +46,15 @@ public class OCTalon extends WPI_TalonSRX {
 	 * Instantiates a talon with an sensor at the device number with the device
 	 * name.
 	 * 
-	 * @param deviceNumber
-	 *            CAN ID of talon.
-	 * @param talonName
-	 *            Desired name of talon.
-	 * @param sensor
-	 *            Sensor to be created.
+	 * @param deviceNumber CAN ID of talon.
+	 * @param talonName Desired name of talon.
+	 * @param sensor Sensor to be created.
 	 */
 	public OCTalon(int deviceNumber, String talonName, FeedbackDevice sensor) {
 		super(deviceNumber);
 		this.deviceNumber = deviceNumber;
-		lastMode = ControlMode.PercentOutput;
-		name = talonName;
+		this.lastMode = ControlMode.PercentOutput;
+		this.name = talonName;
 		super.setName(name);
 		this.sensor = sensor;
 		this.isError = false;
@@ -134,7 +129,7 @@ public class OCTalon extends WPI_TalonSRX {
 	}
 
 	/**
-	 * Don't use this, use the setType you want to use instead
+	 * Don't use this, use the setType you want to use instead.
 	 */
 	@Override
 	public void set(ControlMode mode, double input) {

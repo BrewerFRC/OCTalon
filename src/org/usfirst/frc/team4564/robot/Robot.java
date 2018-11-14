@@ -119,34 +119,29 @@ public class Robot extends SampleRobot {
 	 */
 	@Override
 	public void operatorControl() {
-		final OCTalon talon = new OCTalon(2, "talon", FeedbackDevice.CTRE_MagEncoder_Relative);
+		final OCTalon leftTalon = new OCTalon(2, "leftTalon");
+		final OCTalon rightTalon = new OCTalon(2, "rightTalon", FeedbackDevice.QuadEncoder);
 		final Encoder encoder = new Encoder(5, 6, false, EncodingType.k4X);
 		final Xbox j = new Xbox(0);
-		final Spark 
-				frontL = new Spark(6),
-				frontR = new Spark(8),
-				backL = new Spark(7),
-				backR = new Spark(9);
-		final SpeedControllerGroup left = new SpeedControllerGroup(frontL, backL);
-		final SpeedControllerGroup right = new SpeedControllerGroup(frontR, backR);
-		final DifferentialDrive dt = new DifferentialDrive(left, right);
+		final DifferentialDrive dt = new DifferentialDrive(leftTalon, rightTalon);
 		
 		//m_robotDrive.setSafetyEnabled(true);
 		while (isOperatorControl() && isEnabled()) {
 			//talon.configVoltageComp(voltage);
 			dt.arcadeDrive(-j.getY(GenericHID.Hand.kLeft)*.7, j.getX(GenericHID.Hand.kLeft)*.7);
-			Common.dashNum("Talon Encoder", talon.getPosition());
-			Common.dashNum("Talon Velocity Quadature", talon.getSensorCollection().getQuadratureVelocity());
+			Common.dashNum("Talon Encoder", rightTalon.getPosition());
+			Common.dashNum("Talon Velocity Quadature", rightTalon.getSensorCollection().getQuadratureVelocity());
 			Common.dashNum("Encoder", encoder.get());
 			Common.dashNum("Encoder Velocity", encoder.getRate());
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
 			Common.dashStr("Date", dateFormat.format(new Date()));
 			//Common.debug("Talon Velocity"+talon.getVelocity());
-			Common.dashStr("Talon name", talon.getName());
-			Common.dashNum("Talon ABS Position", talon.getABSPosition());
-			Common.dashNum("Talon Velocity pulse width", talon.getSensorCollection().getPulseWidthVelocity());
+			//Common.dashStr("Talon name", talon.getName());
+			//Common.dashNum("Talon ABS Position", talon.getABSPosition());
+			//Common.dashNum("Talon Velocity pulse width", talon.getSensorCollection().getPulseWidthVelocity());
 			
-			talon.update();
+			rightTalon.update();
+			leftTalon.update();
 			Timer.delay(0.005);
 		}
 	}
