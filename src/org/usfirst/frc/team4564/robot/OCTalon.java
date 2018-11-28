@@ -127,15 +127,7 @@ public class OCTalon extends WPI_TalonSRX {
 	public boolean error() {
 		return isError;
 	}
-
-	/**
-	 * Don't use this, use the setType you want to use instead.
-	 */
-	@Override
-	public void set(ControlMode mode, double input) {
-		Common.debug(
-				"The wrong Talon set method was used with on:" + name + " ControlMode:" + mode + " input:" + input);
-	}
+	
 
 	/**
 	 * Sets the motor to run at an percent
@@ -420,7 +412,7 @@ public class OCTalon extends WPI_TalonSRX {
 	 * @return Sensor position multiplied by scaler.
 	 */
 	public double getPosition() {
-		double pos = super.getSelectedSensorPosition(0) * scaler;
+		double pos = super.getSelectedSensorPosition(0);
 		return pos;
 	}
 
@@ -430,7 +422,7 @@ public class OCTalon extends WPI_TalonSRX {
 	 * @return Sensor velocity multiplied by scaler.
 	 */
 	public double getVelocity() {
-		double pos = super.getSelectedSensorVelocity(0) * scaler;
+		double pos = super.getSelectedSensorVelocity(0);
 		return pos;
 	}
 
@@ -456,7 +448,6 @@ public class OCTalon extends WPI_TalonSRX {
 	 *            Scaler of all non absolute sensor readings.
 	 */
 	public void setSensorScaler(double scaler) {
-		this.scaler = scaler;
 		super.configSelectedFeedbackCoefficient(scaler, 0, getTimeoutMs());
 	}
 
@@ -472,7 +463,7 @@ public class OCTalon extends WPI_TalonSRX {
 	 * @return Scaler of all non absolute sensor readings.
 	 */
 	public double getSensorScaler() {
-		return this.scaler;
+		return this.getParam(ParamEnum.eSensorTerm);
 	}
 	
 	/**
