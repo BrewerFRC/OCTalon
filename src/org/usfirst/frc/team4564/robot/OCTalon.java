@@ -502,4 +502,12 @@ public class OCTalon extends WPI_TalonSRX {
 	public void setTimeoutMs(int timeoutMs) {
 		this.timeoutMs = timeoutMs;
 	}
+	
+	/**
+	 * Sets the sensor position of the selected feedback sensor in pididx 0 to 0.
+	 */
+	public void resetSensor() {
+		super.setSelectedSensorPosition(0, 0, this.getTimeoutMs());
+	}
+	
 }
