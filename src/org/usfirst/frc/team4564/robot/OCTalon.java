@@ -448,7 +448,8 @@ public class OCTalon extends WPI_TalonSRX {
 	 *            Scaler of all non absolute sensor readings.
 	 */
 	public void setSensorScaler(double scaler) {
-		super.configSelectedFeedbackCoefficient(scaler, 0, getTimeoutMs());
+		this.scaler = scaler;
+		this.errorCheck(super.configSelectedFeedbackCoefficient(scaler));
 	}
 
 	// No remote feed back device?????????
@@ -509,5 +510,6 @@ public class OCTalon extends WPI_TalonSRX {
 	public void resetSensor() {
 		super.setSelectedSensorPosition(0, 0, this.getTimeoutMs());
 	}
+	
 	
 }
