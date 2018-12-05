@@ -24,13 +24,13 @@ public class OCTalonPID {
 	//Talk about types of pid?
 	/**
 	 * 
-	 * @param talon
-	 * @param name
-	 * @param p
-	 * @param i
-	 * @param d
-	 * @param f
-	 * @param visible
+	 * @param talon The talon that PID will be on.
+	 * @param name The name of the PID.
+	 * @param p The proportional term.
+	 * @param i The integral term.
+	 * @param d The Derivative term.
+	 * @param f The feedforward term, if it equal 0.0 then it will not post.
+	 * @param visible Whether or not the terms will post to smartdashboard.
 	 */
 	public OCTalonPID(OCTalon talon, String name, double p, double i, double d, double f, boolean visible) {
 		this.talon = talon;
@@ -56,12 +56,12 @@ public class OCTalonPID {
 	 * 
 	 * Sets the F to 0.0.
 	 * 
-	 * @param talon
-	 * @param name
-	 * @param p
-	 * @param i
-	 * @param d
-	 * @param visible
+	 * @param talon The talon that PID will be on.
+	 * @param name The name of the PID.
+	 * @param p The proportional term.
+	 * @param i The integral term.
+	 * @param d The Derivative term.
+	 * @param visible Whether or not the terms will post to smartdashboard.
 	 */
 	public OCTalonPID(OCTalon talon, String name, double p, double i, double d, boolean visible) {
 		this.talon = talon;
@@ -94,10 +94,28 @@ public class OCTalonPID {
 	/**
 	 * The name of the PID.
 	 * 
-	 * @return name of PID.
+	 * @return The name of PID.
 	 */
 	public String getName() {
 		return this.name;
+	}
+	
+	/**
+	 * The target of the PID.
+	 * 
+	 * @return The target of the PID.
+	 */
+	public double getTarget() {
+		return talon.getTarget();
+	}
+	
+	/**
+	 * The motor output in percent.
+	 * 
+	 * @return The output percent of the motor.s
+	 */
+	public double getOutput() {
+		return talon.getMotorOutputPercent();
 	}
 	
 	/**
@@ -189,28 +207,40 @@ public class OCTalonPID {
 	
 	//Utility Functions
 	/**
-	 * 
+	 * Updates the pid with the smart dashboard values and posts current values.
 	 */
 	public void update() {
 		if (visible) {
-			Common.dashNum(getName() + " target", talon.getTarget());
-			Common.dashNum(getName() + " error", talon.getError());
+			Common.dashNum(getName() + " target", this.getTarget());
+			Common.dashNum(getName() + " error", this.getError());
+			Common.dashNum(getName()+ " Motor Percent", this.getTarget());
 			
 			//update params
 			double newp = Common.getNum(getName()+ " P");
-			setP(newp);
-			double newi = Common.getNum(getName()+ " I");
-			setI(newi);
-			double newd = Common.getNum(getName()+ " D");
-			setD(newd);
-			if (Double.valueOf(getF()) != null) {
-				double newf = Common.getNum(getName()+ " F");
-				setF(newf);
+			if (newp != 999) {
+				setP(newp);
 			}
+			double newi = Common.getNum(getName()+ " I");
+			if (newi != 999) {
+				setI(newi);
+			}
+			double newd = Common.getNum(getName()+ " D");
+			if (newd != 999) {
+				setD(newd);
+			}
+			if (Double.valueOf(getF()) != 0.0) {
+				double newf = Common.getNum(getName()+ " F");
+				if (newf != 999) {
+					setF(newf);
+				}
+			}
+			postCoefficients();
 		}
 	}
-	
-	public void postCoeffcients() {
+	/**
+	 * Posts the coefficients of the PID.
+	 */
+	public void postCoefficients() {
 		Common.dashNum(getName() + " P", getP());
 		Common.dashNum(getName() + " I", getI());
 		Common.dashNum(getName() + " D", getD());

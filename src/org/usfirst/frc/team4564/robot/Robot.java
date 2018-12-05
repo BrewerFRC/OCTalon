@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
@@ -121,19 +122,22 @@ public class Robot extends SampleRobot {
 	public void operatorControl() {
 		final OCTalon leftTalon = new OCTalon(1, "leftTalon", FeedbackDevice.QuadEncoder);
 		final OCTalon rightTalon = new OCTalon(2, "rightTalon", FeedbackDevice.CTRE_MagEncoder_Relative);
+		final OCTalonPID drive = new OCTalonPID(leftTalon, "drive", .00001, 0, 0, true); 
 		//final Encoder encoder = new Encoder(5, 6, false, EncodingType.k4X);
 		final Xbox j = new Xbox(0);
-		final DifferentialDrive dt = new DifferentialDrive(leftTalon, rightTalon);
-		leftTalon.setSensorScaler(2);
+		//final DifferentialDrive dt = new DifferentialDrive(leftTalon, rightTalon);
+		leftTalon.setSensorScaler(.00235018);
+		rightTalon.follow(leftTalon.getDeviceNumber());
+
 		
 		//m_robotDrive.setSafetyEnabled(true);
 		while (isOperatorControl() && isEnabled()) {
 			//talon.configVoltageComp(voltage);
-			dt.arcadeDrive(j.getY(GenericHID.Hand.kLeft)*.7, j.getX(GenericHID.Hand.kLeft)*.7);
-			Common.dashNum("Talon Encoder", leftTalon.getSensorCollection().getQuadraturePosition());
+			leftTalon.setVelocity(j.deadzone(j.getLeftTrigger()));
+			//dt.arcadeDrive(j.getY(GenericHID.Hand.kLeft)*.7, j.getX(GenericHID.Hand.kLeft)*.7);
+			Common.dashNum("Talon Encoder", leftTalon.getPosition());
+			Common.dashNum("Sensor Scaler", leftTalon.getSensorScaler());
 			Common.dashNum("Talon Velocity Quadature", leftTalon.getVelocity());
-			//Common.dashNum("Encoder", encoder.get());
-			//Common.dashNum("Encoder Velocity", encoder.getRate());
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
 			Common.dashStr("Date", dateFormat.format(new Date()));
 			//Common.debug("Talon Velocity"+talon.getVelocity());
@@ -141,6 +145,7 @@ public class Robot extends SampleRobot {
 			Common.dashNum("Talon ABS Position", leftTalon.getABSPosition());
 			///Common.dashNum("Talon Velocity pulse width", talon.getSensorCollection().getPulseWidthVelocity());
 			
+			drive.update();
 			rightTalon.update();
 			leftTalon.update();
 			Timer.delay(0.005);

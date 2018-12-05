@@ -381,11 +381,23 @@ public class OCTalon extends WPI_TalonSRX {
 	 * Uses an ordinal of 0 because that is what the example uses and I don't know what it is.
 	 * 
 	 * @param enu ParamEnum of the wanted param.
-	 * @return Parameter
+	 * @return Desired parameter.
 	 */
 	public double getParam(ParamEnum enu) {
 		// ordinal appears to be 0
 		return super.configGetParameter(enu, 0, getTimeoutMs());
+	}
+	
+	/**
+	 * Returns an parameter on the talon.
+	 * 
+	 * @param enu ParamEnum of the wanted parameter.
+	 * @param ordinal ordinal of desired parameter.
+	 * @return Desired parameter.
+	 */
+	public double getParam(ParamEnum enu, int ordinal) {
+		// ordinal appears to be 0
+		return super.configGetParameter(enu, ordinal, getTimeoutMs());
 	}
 
 	/**
@@ -449,7 +461,7 @@ public class OCTalon extends WPI_TalonSRX {
 	 */
 	public void setSensorScaler(double scaler) {
 		this.scaler = scaler;
-		this.errorCheck(super.configSelectedFeedbackCoefficient(scaler));
+		this.errorCheck(super.configSelectedFeedbackCoefficient(scaler, 0, getTimeoutMs()));
 	}
 
 	// No remote feed back device?????????
@@ -464,7 +476,7 @@ public class OCTalon extends WPI_TalonSRX {
 	 * @return Scaler of all non absolute sensor readings.
 	 */
 	public double getSensorScaler() {
-		return this.getParam(ParamEnum.eSensorTerm);
+		return this.getParam(ParamEnum.eSelectedSensorCoefficient);
 	}
 	
 	/**
@@ -508,7 +520,7 @@ public class OCTalon extends WPI_TalonSRX {
 	 * Sets the sensor position of the selected feedback sensor in pididx 0 to 0.
 	 */
 	public void resetSensor() {
-		super.setSelectedSensorPosition(0, 0, this.getTimeoutMs());
+		errorCheck(super.setSelectedSensorPosition(0, 0, this.getTimeoutMs()));
 	}
 	
 	
